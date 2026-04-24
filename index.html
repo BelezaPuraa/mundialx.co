@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mundial & Co. — Positive Impact by Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --white:#FAFDF7;--off-white:#F2F7EE;--light-green:#E4EFE0;
+  --sage:#7A9B72;--mid-green:#4A6741;--moss:#3D5C35;
+  --dark-green:#2C3D28;--deep-green:#1A2618;--black-green:#0F1A0D;
+  --accent:#8FB584;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--white);color:var(--deep-green);overflow-x:hidden;cursor:none}
+.cursor{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--accent);pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.cursor-ring{position:fixed;width:34px;height:34px;border-radius:50%;border:1px solid rgba(143,181,132,.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .12s ease}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  padding:18px 52px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:24px;
+  transition:background .4s;
+}
+nav.solid{background:rgba(250,253,247,.97);backdrop-filter:blur(16px);border-bottom:.5px solid rgba(74,103,65,.1)}
+
+/* brand — left */
+.nav-brand{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(11px,1.1vw,14px);
+  font-weight:400;letter-spacing:.38em;text-transform:uppercase;
+  color:rgba(250,253,247,.7);background:none;border:none;cursor:pointer;
+  transition:color .3s;white-space:nowrap;text-align:left;
+  display:flex;flex-direction:column;gap:3px;
+}
+.nav-brand-sub{font-size:6px;letter-spacing:.32em;color:rgba(143,181,132,.4);text-transform:uppercase;font-family:'Jost',sans-serif;}
+.nav-brand:hover .nav-brand-name{color:var(--accent)}
+nav.solid .nav-brand-name{color:var(--mid-green)}
+nav.solid .nav-brand-sub{color:rgba(74,103,65,.35)}
+
+/* page links — centre */
+.nav-center{display:flex;gap:28px;list-style:none;justify-content:center}
+.nav-btn{
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(250,253,247,.45);background:none;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;transition:color .3s;padding:4px 0;
+  border-bottom:1px solid transparent;
+}
+.nav-btn:hover{color:rgba(250,253,247,.85)}
+.nav-btn.cur{color:var(--accent);border-bottom-color:rgba(143,181,132,.35)}
+nav.solid .nav-btn{color:rgba(74,103,65,.5)}
+nav.solid .nav-btn:hover{color:var(--mid-green)}
+nav.solid .nav-btn.cur{color:var(--mid-green);border-bottom-color:var(--accent)}
+
+/* lang switcher — right */
+.nav-right{display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.lb{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(143,181,132,.38);background:none;border:none;cursor:pointer;padding:3px 4px;font-family:'Jost',sans-serif;transition:color .3s}
+.lb:hover,.lb.active{color:var(--accent)}
+nav.solid .lb{color:rgba(74,103,65,.32)}
+nav.solid .lb:hover,nav.solid .lb.active{color:var(--mid-green)}
+.ls{color:rgba(143,181,132,.14);font-size:7px}
+
+/* PAGES */
+.page{display:none}.page.active{display:block}
+
+/* ── HERO ── */
+.hs{position:absolute;border-radius:50%;filter:blur(88px)}
+.hs1{width:62vw;height:62vw;background:radial-gradient(circle,#3D5C35,transparent);top:-22%;left:-10%;opacity:.33;animation:d1 22s ease-in-out infinite alternate}
+.hs2{width:46vw;height:46vw;background:radial-gradient(circle,#4A6741,transparent);bottom:-16%;right:-6%;opacity:.33;animation:d2 27s ease-in-out infinite alternate}
+.hs3{width:30vw;height:30vw;background:radial-gradient(circle,#8FB584,transparent);top:32%;right:20%;opacity:.15;animation:d3 19s ease-in-out infinite alternate}
+.hs4{width:24vw;height:24vw;background:radial-gradient(circle,#7A9B72,transparent);bottom:24%;left:24%;opacity:.15;animation:d1 25s ease-in-out infinite alternate-reverse}
+@keyframes d1{to{transform:translate(5%,8%) scale(1.1)}}
+@keyframes d2{to{transform:translate(-6%,-5%) scale(.95)}}
+@keyframes d3{to{transform:translate(-4%,6%) rotate(18deg)}}
+.hgrain{position:absolute;inset:0;opacity:.3;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");background-size:160px}
+.hlines{position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(0deg,transparent,transparent 44px,rgba(143,181,132,.022) 44px,rgba(143,181,132,.022) 45px)}
+.hov{position:absolute;inset:0;background:linear-gradient(160deg,rgba(15,26,13,.44) 0%,rgba(15,26,13,.18) 45%,rgba(15,26,13,.54) 100%)}
+.hcont{position:relative;z-index:2;text-align:center;padding:0 40px;max-width:1000px;width:100%;display:flex;flex-direction:column;align-items:center}
+
+/* centered brand block — just like before */
+.hbrand{display:inline-flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:44px;opacity:0;animation:fu 1s .15s ease forwards;background:none;border:none;cursor:pointer;text-align:center}
+.hbrand-name{font-family:'Cormorant Garamond',serif;font-size:clamp(14px,1.5vw,18px);font-weight:400;letter-spacing:.48em;text-transform:uppercase;color:var(--white);transition:color .3s}
+.hbrand-sub{font-size:7px;letter-spacing:.44em;text-transform:uppercase;color:rgba(143,181,132,.55)}
+.hbrand:hover .hbrand-name{color:var(--accent)}
+.hbrand:hover .hbrand-sub{color:rgba(143,181,132,.85)}
+
+.hrule{width:1px;height:48px;background:linear-gradient(to bottom,rgba(143,181,132,.48),transparent);margin-bottom:36px;opacity:0;animation:fu 1s .4s ease forwards}
+
+.htitle{opacity:0;animation:fu 1.1s .6s ease forwards;display:flex;flex-direction:column;align-items:center}
+.h-line1{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,54px);font-weight:300;color:var(--white);line-height:1.1}
+.h-line1 em{font-style:italic;color:var(--accent)}
+.h-line2{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.4vw,32px);font-weight:300;font-style:italic;color:rgba(250,253,247,.58);margin-top:18px;letter-spacing:.03em}
+.h-in{font-family:'Cormorant Garamond',serif;font-size:clamp(14px,1.6vw,20px);font-weight:300;font-style:italic;color:rgba(250,253,247,.28);margin-top:10px;letter-spacing:.08em}
+.h-city{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,6.5vw,86px);font-weight:300;font-style:italic;color:var(--accent);margin-top:4px;transition:opacity .45s ease,transform .45s cubic-bezier(.16,1,.3,1)}
+.hcta{display:inline-block;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--deep-green);background:var(--accent);padding:17px 50px;border:none;cursor:pointer;transition:all .35s ease;opacity:0;animation:fu 1s 1.2s ease forwards;font-family:'Jost',sans-serif;font-weight:500;margin-top:32px}
+.hcta:hover{background:var(--sage);color:var(--white);letter-spacing:.44em}
+@keyframes fu{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.shint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;z-index:2}
+.shint span{font-size:7px;letter-spacing:.35em;text-transform:uppercase;color:rgba(143,181,132,.4)}
+.stick{width:1px;height:44px;background:linear-gradient(to bottom,rgba(143,181,132,.5),transparent);animation:ta 2.4s ease-in-out infinite}
+@keyframes ta{0%{transform:scaleY(0);transform-origin:top;opacity:0}50%{transform:scaleY(1);transform-origin:top;opacity:1}100%{transform:scaleY(0);transform-origin:bottom;opacity:0}}
+
+/* SHARED */
+.sec{padding:120px 56px}.sec-inner{max-width:1120px;margin:0 auto}
+.ey{font-size:8px;letter-spacing:.45em;text-transform:uppercase;color:var(--moss);margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.ey::before{content:'';display:block;width:28px;height:1px;background:var(--accent)}
+.snb{display:flex;justify-content:center;padding:0 0 80px}
+.snbtn{font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:var(--deep-green);background:var(--light-green);padding:16px 48px;border:none;cursor:pointer;transition:all .35s;font-family:'Jost',sans-serif;display:flex;align-items:center;gap:12px}
+.snbtn:hover{background:var(--mid-green);color:var(--white)}
+footer{background:var(--black-green);padding:44px 56px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;align-items:center;border-top:.5px solid rgba(143,181,132,.07)}
+.fl{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;color:rgba(250,253,247,.38);display:block}
+.fl2{font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:rgba(143,181,132,.22);display:block;margin-top:3px}
+.flinks{display:flex;gap:22px;justify-content:center;list-style:none;flex-wrap:wrap}
+.flinks button{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,253,247,.24);background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;transition:color .3s}
+.flinks button:hover{color:var(--accent)}
+.fc{font-size:9px;color:rgba(250,253,247,.17);text-align:right;letter-spacing:.08em}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.v{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ── IMPACT ── deep green background */
+#p-impact{background:var(--deep-green)}
+.imp-lay{display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:start}
+.imp-eyebrow{font-size:8px;letter-spacing:.45em;text-transform:uppercase;color:rgba(143,181,132,.45);margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.imp-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--accent)}
+.imp-h{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,44px);font-weight:300;line-height:1.22;color:var(--white);margin-bottom:36px;font-style:italic}
+.imp-b{font-size:15px;line-height:1.95;color:rgba(250,253,247,.55);font-weight:300;margin-bottom:18px}
+.imp-right{display:flex;flex-direction:column;gap:40px;padding-top:8px}
+.imp-manifesto{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.2vw,30px);font-weight:300;font-style:italic;color:var(--white);line-height:1.55;padding-left:24px;border-left:2px solid var(--accent)}
+.isg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.ist{background:rgba(143,181,132,.07);border:.5px solid rgba(143,181,132,.12);padding:32px 20px}
+.isn{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--accent);line-height:1;margin-bottom:6px}
+.isl{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(143,181,132,.55)}
+
+/* ── SERVICES ── off-white background, dark text */
+#p-services{background:var(--off-white)}
+.sv-intro-block{margin-bottom:64px}
+.sv-h{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,72px);font-weight:300;line-height:1.05;color:var(--deep-green);margin-bottom:20px}
+.sv-h em{font-style:italic;color:var(--mid-green)}
+.sv-lead{font-size:16px;line-height:1.85;color:var(--mid-green);font-weight:300;max-width:640px}
+.sv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(74,103,65,.12)}
+.svc{background:var(--off-white);padding:46px 36px;border-top:2px solid transparent;transition:background .4s,border-color .4s}
+.svc:hover{background:var(--white);border-top-color:var(--mid-green)}
+.svn{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:rgba(74,103,65,.1);line-height:1;margin-bottom:20px;display:block}
+.svt{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:400;color:var(--dark-green);margin-bottom:14px;line-height:1.3}
+.svd{font-size:13px;line-height:1.9;color:var(--mid-green);font-weight:300}
+
+/* ── ABOUT ── */
+#p-about{background:var(--white)}
+.ab-h{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,72px);font-weight:300;line-height:1.05;color:var(--deep-green);margin-bottom:14px}
+.ab-h em{font-style:italic;color:var(--mid-green)}
+.ab-sub{font-size:15px;line-height:1.85;color:var(--mid-green);font-weight:300;max-width:520px;margin-bottom:72px}
+.ab-layout{display:grid;grid-template-columns:280px 1fr;gap:80px;align-items:start}
+.ab-left{display:flex;flex-direction:column;gap:28px}
+/* portrait — a framed placeholder, no big empty block */
+.ab-portrait{
+  width:100%;aspect-ratio:3/4;position:relative;overflow:hidden;
+  border:.5px solid rgba(74,103,65,.15);
+  background:linear-gradient(160deg,var(--light-green) 0%,rgba(228,239,224,.4) 100%);
+  display:flex;align-items:flex-end;justify-content:flex-start;padding:20px;
+}
+.ab-initial{font-family:'Cormorant Garamond',serif;font-size:200px;font-weight:300;color:rgba(74,103,65,.07);line-height:1;position:absolute;bottom:-16px;right:-8px;pointer-events:none}
+.ab-portrait-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(74,103,65,.4);position:relative;z-index:1}
+.meta-lbl{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--sage);margin-bottom:10px}
+.ab-langs{display:flex;flex-wrap:wrap;gap:7px}
+.tl{font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;padding:5px 10px;border:.5px solid rgba(74,103,65,.2);color:var(--moss)}
+/* right */
+.ab-right{padding-top:4px}
+.mn{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,3.8vw,52px);font-weight:300;line-height:1.08;color:var(--deep-green);margin-bottom:6px}
+.mn em{font-style:italic;color:var(--mid-green)}
+.mt{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--sage);margin-bottom:36px;display:flex;align-items:center;gap:14px}
+.mt::after{content:'';display:block;flex:1;height:.5px;background:rgba(74,103,65,.13);max-width:100px}
+.mb{font-size:15px;line-height:1.9;color:#3A4D36;font-weight:300;margin-bottom:18px}
+.ab-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.ab-tag{font-size:8px;letter-spacing:.24em;text-transform:uppercase;padding:10px 18px;background:var(--light-green);color:var(--moss)}
+
+/* ── CONTACT — form only, centred ── */
+#p-contact{background:var(--deep-green);color:var(--white)}
+.ct-center{max-width:680px;margin:0 auto}
+.ct-eyebrow{font-size:8px;letter-spacing:.45em;text-transform:uppercase;color:rgba(143,181,132,.4);margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.ct-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--accent)}
+.ct-h{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4.5vw,68px);font-weight:300;line-height:1.08;color:var(--white);margin-bottom:16px}
+.ct-h em{font-style:italic;color:var(--accent)}
+.ct-sub{font-size:14px;line-height:1.9;color:rgba(250,253,247,.45);font-weight:300;margin-bottom:48px}
+.ct-form-wrap{background:rgba(250,253,247,.03);border:.5px solid rgba(143,181,132,.1);padding:52px 48px}
+.ct-form-head{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;font-style:italic;color:var(--white);margin-bottom:6px}
+.ct-form-note{font-size:10px;letter-spacing:.12em;color:rgba(143,181,132,.4);margin-bottom:40px}
+.fg{margin-bottom:26px}
+.fl-lab{font-size:7.5px;letter-spacing:.34em;text-transform:uppercase;color:rgba(143,181,132,.45);margin-bottom:10px;display:block}
+.fi,.fsel,.fta{width:100%;background:transparent;border:none;border-bottom:.5px solid rgba(143,181,132,.18);padding:12px 0;color:var(--white);font-family:'Jost',sans-serif;font-size:14px;font-weight:300;outline:none;transition:border-color .3s;appearance:none;border-radius:0}
+.fi:focus,.fsel:focus,.fta:focus{border-bottom-color:rgba(143,181,132,.55)}
+.fi::placeholder,.fta::placeholder{color:rgba(250,253,247,.2)}
+.fsel{cursor:pointer}
+.fsel option{background:var(--deep-green);color:var(--white)}
+.fta{resize:vertical;min-height:88px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:26px}
+.fsub{width:100%;font-size:9px;letter-spacing:.38em;text-transform:uppercase;color:var(--deep-green);background:var(--accent);padding:18px;border:none;cursor:pointer;transition:all .35s;font-family:'Jost',sans-serif;font-weight:500;margin-top:36px;display:block}
+.fsub:hover{background:var(--sage);color:var(--white)}
+
+/* FLOAT */
+.floatbar{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:400;background:rgba(26,38,24,.96);border:.5px solid rgba(143,181,132,.17);padding:13px 32px;display:flex;align-items:center;gap:14px;backdrop-filter:blur(12px);transition:all .35s;white-space:nowrap}
+.floatbar:hover{background:var(--mid-green);border-color:var(--mid-green)}
+.fdot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:db 2.5s ease-in-out infinite;flex-shrink:0}
+@keyframes db{0%,100%{opacity:1}50%{opacity:.2}}
+.floatbar button{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(250,253,247,.78);background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;transition:color .3s}
+.floatbar:hover button{color:var(--white)}
+
+@media(max-width:900px){
+  nav{padding:14px 20px;grid-template-columns:auto 1fr}.nav-center{display:none}.sec{padding:72px 20px}
+  .imp-lay,.ab-layout{grid-template-columns:1fr;gap:48px}
+  .sv-grid{grid-template-columns:1fr}
+  .fg-row{grid-template-columns:1fr;gap:0}
+  footer{grid-template-columns:1fr;text-align:center}
+  .flinks{justify-content:center}.fc{text-align:center}
+  body{cursor:auto}.cursor,.cursor-ring{display:none}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <button class="nav-brand" onclick="go('home')">
+    <span class="nav-brand-name">Mundial &amp; Co.</span>
+    <span class="nav-brand-sub">Positive Impact by Design</span>
+  </button>
+  <ul class="nav-center">
+    <li><button class="nav-btn" id="nb-impact"   onclick="go('impact')">Impact</button></li>
+    <li><button class="nav-btn" id="nb-services" onclick="go('services')">Services</button></li>
+    <li><button class="nav-btn" id="nb-about"    onclick="go('about')">About</button></li>
+    <li><button class="nav-btn" id="nb-contact"  onclick="go('contact')">Contact</button></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lb active" onclick="lang('en')">EN</button><span class="ls">·</span>
+    <button class="lb" onclick="lang('zh')">中</button><span class="ls">·</span>
+    <button class="lb" onclick="lang('es')">ES</button><span class="ls">·</span>
+    <button class="lb" onclick="lang('pt')">PT</button><span class="ls">·</span>
+    <button class="lb" onclick="lang('ar')">AR</button><span class="ls">·</span>
+    <button class="lb" onclick="lang('fr')">FR</button><span class="ls">·</span>
+    <button class="lb" onclick="lang('de')">DE</button>
+  </div>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="p-home">
+  <section style="position:relative;height:100vh;min-height:680px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--black-green)">
+    <div class="hs hs1"></div><div class="hs hs2"></div><div class="hs hs3"></div><div class="hs hs4"></div>
+    <div class="hgrain"></div><div class="hlines"></div><div class="hov"></div>
+    <div class="hcont">
+      <button class="hbrand" onclick="go('home')">
+        <span class="hbrand-name">Mundial &amp; Co.</span>
+        <span class="hbrand-sub">Positive Impact by Design</span>
+      </button>
+      <div class="hrule"></div>
+      <div class="htitle">
+        <span class="h-line1" data-t="line1">Find <em>excellence</em> &amp; local partners you can trust.</span>
+        <span class="h-line2" data-t="line2">Providing place-based solutions to create long-term value.</span>
+        <span class="h-in">in</span>
+        <span class="h-city" id="city">Shanghai.</span>
+      </div>
+      <button class="hcta" onclick="go('impact')" data-t="cta">Build Impact</button>
+    </div>
+    <div class="shint"><div class="stick"></div><span>Scroll</span></div>
+  </section>
+</div>
+
+<!-- ══ IMPACT ══ -->
+<div class="page" id="p-impact">
+  <div class="sec" style="padding-top:140px">
+    <div class="sec-inner">
+      <div class="imp-lay">
+        <div class="reveal">
+          <p class="imp-eyebrow">Impact</p>
+          <h2 class="imp-h">We help organizations create real, measurable positive change.</h2>
+          <p class="imp-b">Customers increasingly choose brands whose values they can see, touch and verify. Local sourcing done right reduces supply chain risk, elevates quality and sustains the narrative clients actively seek.</p>
+          <p class="imp-b">Lasting success now depends on integration into local economic and social networks through innovation and cooperation.</p>
+          <p class="imp-b">Go beyond simple market entry by building trust, local partnerships and long-term value.</p>
+        </div>
+        <div class="imp-right reveal d2">
+          <p class="imp-manifesto">Excellence is always local.<br>We find it for you.</p>
+          <div class="isg">
+            <div class="ist"><p class="isn">4</p><p class="isl">Continents</p></div>
+            <div class="ist"><p class="isn">20+</p><p class="isl">Countries</p></div>
+            <div class="ist"><p class="isn">9</p><p class="isl">Languages</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snb"><button class="snbtn" style="background:rgba(250,253,247,.07);color:rgba(250,253,247,.65)" onclick="go('services')">Services <span style="font-size:12px">↓</span></button></div>
+  <footer>
+    <div><span class="fl">Mundial &amp; Co.</span><span class="fl2">Positive Impact by Design</span></div>
+    <ul class="flinks"><li><button onclick="go('home')">Home</button></li><li><button onclick="go('services')">Services</button></li><li><button onclick="go('about')">About</button></li><li><button onclick="go('contact')">Contact</button></li></ul>
+    <span class="fc">&copy; 2025 Mundial &amp; Co.</span>
+  </footer>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<div class="page" id="p-services">
+  <div class="sec" style="padding-top:140px">
+    <div class="sec-inner">
+      <div class="sv-intro-block reveal">
+        <p class="ey">Services</p>
+        <h2 class="sv-h">What we <em>do</em></h2>
+        <p class="sv-lead">We source excellence, build reciprocal relationships and document the real-world positive impact.</p>
+      </div>
+      <div class="sv-grid">
+        <div class="svc reveal d1">
+          <span class="svn">01</span>
+          <h3 class="svt">Viability Studies</h3>
+          <p class="svd">Localization, internationalization, globalization. Creating products that fit the cultural sensitivities of the market a company will be selling in is a must in today's market.</p>
+        </div>
+        <div class="svc reveal d2">
+          <span class="svn">02</span>
+          <h3 class="svt">Sourcing Excellence Responsibly</h3>
+          <p class="svd">From artisanship over produce to hospitality partners — we help you find the best where it matters most to your organization.</p>
+        </div>
+        <div class="svc reveal d3">
+          <span class="svn">03</span>
+          <h3 class="svt">Stakeholder Management &amp; Local Partnership</h3>
+          <p class="svd">We build lasting relationships in the language of the respective place by connecting global ambition with local partners you can trust.</p>
+        </div>
+        <div class="svc reveal d1">
+          <span class="svn">04</span>
+          <h3 class="svt">Verify Through Data</h3>
+          <p class="svd">Participatory sustainability means we produce tangible data to show the effects of best practices. With 10+ years of field experience, we love to help an enterprise succeed.</p>
+        </div>
+        <div class="svc reveal d2">
+          <span class="svn">05</span>
+          <h3 class="svt">Making Change Visible</h3>
+          <p class="svd">We provide clear data points to measure impact — translating field work into evidence that communicates your commitment to stakeholders, clients and investors.</p>
+        </div>
+        <div class="svc reveal d3">
+          <span class="svn">06</span>
+          <h3 class="svt">Social Communication</h3>
+          <p class="svd">We tell stories that matter because reciprocal relationships represent a new way of doing business — documentary-style content that communicates real-world value honestly.</p>
+        </div>
+        <div class="svc reveal d1">
+          <span class="svn">07</span>
+          <h3 class="svt">Immersive Experience Design</h3>
+          <p class="svd">We turn stories into a live adventure. Brand activations and flagship experiences are a powerful way to let the world know you have turned the tide on business as usual.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snb" style="background:var(--off-white)"><button class="snbtn" onclick="go('about')">About <span style="font-size:12px">↓</span></button></div>
+  <footer>
+    <div><span class="fl">Mundial &amp; Co.</span><span class="fl2">Positive Impact by Design</span></div>
+    <ul class="flinks"><li><button onclick="go('home')">Home</button></li><li><button onclick="go('impact')">Impact</button></li><li><button onclick="go('about')">About</button></li><li><button onclick="go('contact')">Contact</button></li></ul>
+    <span class="fc">&copy; 2025 Mundial &amp; Co.</span>
+  </footer>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<div class="page" id="p-about">
+  <div class="sec" style="padding-top:140px">
+    <div class="sec-inner">
+      <div class="reveal">
+        <p class="ey">About</p>
+        <h2 class="ab-h">The people behind <em>the work</em></h2>
+        <p class="ab-sub">A global team built on deep local knowledge, multilingual relationships and genuine commitment to positive impact.</p>
+      </div>
+      <div class="ab-layout">
+        <div class="ab-left reveal">
+          <div class="ab-portrait">
+            <span class="ab-initial">S</span>
+            <span class="ab-portrait-name">Stef Mundial</span>
+          </div>
+          <div>
+            <p class="meta-lbl">Languages</p>
+            <div class="ab-langs">
+              <span class="tl">Portuguese</span><span class="tl">German</span><span class="tl">English</span>
+              <span class="tl">Spanish</span><span class="tl">French</span><span class="tl">Dutch</span>
+              <span class="tl">Chinese</span><span class="tl">Turkish</span><span class="tl">Russian</span>
+            </div>
+          </div>
+        </div>
+        <div class="ab-right reveal d2">
+          <h3 class="mn">Stef <em>Mundial</em></h3>
+          <p class="mt">Head of Operations &amp; Procurement</p>
+          <p class="mb">A multilingual field specialist with a decade of experience across four continents, working at the intersection of global strategy and local excellence — finding the finest partners in a place, building deep relationships with them, and translating that into verifiable positive impact.</p>
+          <p class="mb">He has led programmes across Europe, the Middle East, Asia and Latin America, managing local supplier networks simultaneously in six languages. Academic foundation in International Relations, History and Politics, studied in the Netherlands, China and South Korea.</p>
+          <p class="mb">The conviction at the heart of his approach: the most durable value comes from genuine relationships with the people who call a place home.</p>
+          <div class="ab-tags">
+            <span class="ab-tag">Cultural Literacy</span>
+            <span class="ab-tag">Commitment to Excellence</span>
+            <span class="ab-tag">Global Network</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snb"><button class="snbtn" onclick="go('contact')">Contact <span style="font-size:12px">↓</span></button></div>
+  <footer>
+    <div><span class="fl">Mundial &amp; Co.</span><span class="fl2">Positive Impact by Design</span></div>
+    <ul class="flinks"><li><button onclick="go('home')">Home</button></li><li><button onclick="go('impact')">Impact</button></li><li><button onclick="go('services')">Services</button></li><li><button onclick="go('contact')">Contact</button></li></ul>
+    <span class="fc">&copy; 2025 Mundial &amp; Co.</span>
+  </footer>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<div class="page" id="p-contact">
+  <div class="sec" style="padding-top:140px;min-height:100vh">
+    <div class="sec-inner">
+      <div class="ct-center reveal">
+        <p class="ct-eyebrow">Contact</p>
+        <h2 class="ct-h">Let's <em>talk</em></h2>
+        <p class="ct-sub">We work across time zones and languages. Fill in the form and we will be in touch within 24 hours.</p>
+        <div class="ct-form-wrap">
+          <h3 class="ct-form-head">Send a message</h3>
+          <p class="ct-form-note">We respond within 24 hours</p>
+          <div class="fg-row">
+            <div class="fg" style="margin-bottom:0"><label class="fl-lab">Name</label><input type="text" class="fi" placeholder="Your full name"></div>
+            <div class="fg" style="margin-bottom:0"><label class="fl-lab">Topic</label><input type="text" class="fi" placeholder="e.g. Partnership, Sourcing…"></div>
+          </div>
+          <div class="fg" style="margin-top:26px"><label class="fl-lab">Message</label><textarea class="fta" style="min-height:120px" placeholder="Tell us about your project or enquiry…"></textarea></div>
+          <div class="fg">
+            <label class="fl-lab">Preferred form of contact</label>
+            <select class="fsel">
+              <option value="">Select a channel</option>
+              <option>Email</option><option>Signal</option><option>WhatsApp</option>
+              <option>Telegram</option><option>LINE</option><option>WeChat / Weixin</option>
+              <option>Phone call</option><option>Video call</option>
+            </select>
+          </div>
+          <div class="fg"><label class="fl-lab">Contact details</label><input type="text" class="fi" placeholder="Email address, phone number or handle"></div>
+          <div class="fg">
+            <label class="fl-lab">Preferred language</label>
+            <select class="fsel">
+              <option value="">Select language</option>
+              <option>English</option><option>中文 (Chinese)</option><option>Español (Spanish)</option>
+              <option>Português (Portuguese)</option><option>العربية (Arabic)</option>
+              <option>Français (French)</option><option>Deutsch (German)</option>
+              <option>Tiếng Việt (Vietnamese)</option><option>Nederlands (Dutch)</option><option>Türkçe (Turkish)</option>
+            </select>
+          </div>
+          <div class="fg"><label class="fl-lab">Other</label><textarea class="fta" placeholder="Anything else you would like us to know…"></textarea></div>
+          <button class="fsub" id="fsub" onclick="submitted()">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer style="background:#070f06">
+    <div><span class="fl">Mundial &amp; Co.</span><span class="fl2">Positive Impact by Design</span></div>
+    <ul class="flinks"><li><button onclick="go('home')">Home</button></li><li><button onclick="go('impact')">Impact</button></li><li><button onclick="go('services')">Services</button></li><li><button onclick="go('about')">About</button></li></ul>
+    <span class="fc">&copy; 2025 Mundial &amp; Co.</span>
+  </footer>
+</div>
+
+<div class="floatbar"><div class="fdot"></div><button onclick="go('contact')">Contact Reception</button></div>
+
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+
+const nav=document.getElementById('nav');
+
+const PAGES=['home','impact','services','about','contact'];
+function go(id){
+  PAGES.forEach(p=>{
+    document.getElementById('p-'+p).classList.remove('active');
+    const nb=document.getElementById('nb-'+p);
+    if(nb)nb.classList.remove('cur');
+  });
+  document.getElementById('p-'+id).classList.add('active');
+  const nb=document.getElementById('nb-'+id);
+  if(nb)nb.classList.add('cur');
+  window.scrollTo(0,0);
+  if(id==='home'){nav.classList.remove('solid')}else{nav.classList.add('solid')}
+  setTimeout(reveal,120);
+}
+go('home');
+
+window.addEventListener('scroll',()=>{
+  if(document.getElementById('p-home').classList.contains('active'))
+    nav.classList.toggle('solid',window.scrollY>50);
+});
+
+function reveal(){
+  const els=document.querySelectorAll('.page.active .reveal:not(.v)');
+  const obs=new IntersectionObserver(en=>{en.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target);}});},{threshold:.1});
+  els.forEach(el=>{const r=el.getBoundingClientRect();if(r.top<window.innerHeight*.9)el.classList.add('v');else obs.observe(el);});
+}
+
+/* city rotator — globally mixed, no regional runs */
+const cities=['Paris','Tokyo','Istanbul','New York','Nairobi','Singapore','Buenos Aires','London','Mumbai','Bogotá','Barcelona','Lagos','São Paulo','Seoul','Marrakech','Amsterdam','Cape Town','Mexico City','Lisbon','Jakarta','Berlin','Casablanca','Sydney','Lima','Dublin','Hong Kong','Dakar','Vienna','Medellín','Beirut','Copenhagen','Accra','Montreal','Taipei','Havana','Stockholm','Cartagena','Kyoto','Tunis','Melbourne','Oaxaca','Zurich','Colombo','Santiago','Brussels','Hội An','Porto','Kampala'];
+const cityEl=document.getElementById('city');let ci=0;
+cityEl.style.transition='opacity .45s ease,transform .45s cubic-bezier(.16,1,.3,1)';
+setInterval(()=>{
+  cityEl.style.opacity='0';cityEl.style.transform='translateY(14px)';
+  setTimeout(()=>{ci=(ci+1)%cities.length;cityEl.textContent=cities[ci]+'.';cityEl.style.opacity='1';cityEl.style.transform='translateY(0)';},430);
+},2600);
+
+const T={
+  en:{line1:'Find <em>excellence</em> & local partners you can trust.',line2:'Providing place-based solutions to create long-term value.',cta:'Build Impact'},
+  es:{line1:'Encuentra <em>excelencia</em> y socios locales de confianza.',line2:'Soluciones basadas en el lugar para crear valor duradero.',cta:'Construir Impacto'},
+  pt:{line1:'Encontre <em>excelência</em> e parceiros locais de confiança.',line2:'Soluções baseadas no lugar para criar valor duradouro.',cta:'Construir Impacto'},
+  fr:{line1:"Trouvez l'<em>excellence</em> et des partenaires locaux de confiance.",line2:"Des solutions ancrées dans le lieu pour créer une valeur durable.",cta:"Construire l'Impact"},
+  de:{line1:'Finden Sie <em>Exzellenz</em> und vertrauenswürdige lokale Partner.',line2:'Ortsbezogene Lösungen für nachhaltigen Wert.',cta:'Impact aufbauen'},
+  zh:{line1:'寻找<em>卓越</em>的本地合作伙伴，值得您信赖。',line2:'以地方为基础的解决方案，创造长期价值。',cta:'构建影响力'},
+  ar:{line1:'ابحث عن <em>التميز</em> وشركاء محليين يمكنك الوثوق بهم.',line2:'حلول قائمة على المكان لخلق قيمة طويلة الأمد.',cta:'بناء الأثر'}
+};
+function lang(l){
+  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.lb[onclick="lang(\''+l+'\')"]').classList.add('active');
+  const t=T[l]||T.en;
+  const l1=document.querySelector('[data-t="line1"]');if(l1)l1.innerHTML=t.line1;
+  const l2=document.querySelector('[data-t="line2"]');if(l2)l2.textContent=t.line2;
+  const ct=document.querySelector('[data-t="cta"]');if(ct)ct.textContent=t.cta;
+  document.documentElement.setAttribute('dir',l==='ar'?'rtl':'ltr');
+}
+function submitted(){
+  const b=document.getElementById('fsub');
+  b.textContent='Message sent — we will be in touch.';
+  b.style.background='var(--mid-green)';b.style.color='var(--white)';b.disabled=true;
+}
+</script>
+</body>
+</html>
